@@ -1,0 +1,354 @@
+<!-- grids/the_template.tpl -->	<!DOCTYPE html>
+	<html lang="de">
+	<head>
+		<meta charset="UTF-8">
+		<title>can-newsletter.org - Standardization</title>
+		<meta name="keywords" content="CAN bus, CANopen, CAN protocol, CAN FD, Isobus, J1939, engineering, standardization" />
+		<meta name="description" content="News and application notes on engineering and standardization for CAN bus, CANopen, CAN FD, J1939, Isobus" />
+		<meta name="generator" content="ticktoo Systems - Application Framework 3.0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="/themes/can-newsletter/img/favicon.ico" />
+		<link rel="apple-touch-icon" href="/themes/can-newsletter/img/apple-touch-icon.png" />
+		<link rel="stylesheet" type="text/css" href="/themes/can-newsletter/style.css?201809131507" media="screen" />
+		<script type="text/javascript" src="/themes/can-newsletter/lib/core.js?201809131507"></script>
+		<script type="text/javascript" src="/themes/can-newsletter/lib/detonator.js?201809131507"></script>
+		<meta name="google-site-verification" content="w7cBtwimFn04Hv6Z2drmka25VsaSGclohWTDO6AMN1g" />
+	</head>
+	<body>
+		<!-- HEAD -->
+
+<!-- /HEAD -->
+
+		<div class="header group">
+	<div class="container">
+		<div class="brand"><a href="/">CAN Newsletter Online</a></div>
+		<div class="desktop-tools">
+			<div class="search-trigger"><span>Open search</span></div>
+		</div>
+		<div class="menu group">
+			
+
+<ul>
+																												<li><a href="/magazine">Magazine</a>
+					</li>
+							<li><a href="/hardware">Hardware</a>
+							<ul class="sub-menu">
+																		<li><a href="/hardware/semiconductors">Semiconductors</a></li>
+																								<li><a href="/hardware/controllers">Host controllers</a></li>
+																								<li><a href="/hardware/host-interfaces">Host interfaces</a></li>
+																								<li><a href="/hardware/hmis">HMIs</a></li>
+																								<li><a href="/hardware/gateways">Gateways</a></li>
+																								<li><a href="/hardware/io-modules">I/O modules</a></li>
+																								<li><a href="/hardware/actuators">Actuators</a></li>
+																								<li><a href="/hardware/sensors">Sensors</a></li>
+																								<li><a href="/hardware/hardware-miscellaneous"> Miscellaneous</a></li>
+															</ul>
+					</li>
+							<li><a href="/software">Software</a>
+							<ul class="sub-menu">
+																		<li><a href="/software/protocol-stacks">Protocol stacks</a></li>
+																								<li><a href="/software/software-miscellaneous">Miscellaneous</a></li>
+															</ul>
+					</li>
+							<li><a href="/tools">Tools</a>
+							<ul class="sub-menu">
+																		<li><a href="/tools/bus-analyzers">Protocol analyzers</a></li>
+																								<li><a href="/tools/tools-miscellaneous">Miscellaneous</a></li>
+															</ul>
+					</li>
+							<li><a href="/engineering">Engineering</a>
+							<ul class="sub-menu">
+																		<li><a href="/engineering/standardization">Standardization</a></li>
+																								<li><a href="/engineering/system-design">System design</a></li>
+																								<li><a href="/engineering/applications">Applications</a></li>
+																								<li><a href="/engineering/engineering-miscellaneous">Miscellaneous</a></li>
+															</ul>
+					</li>
+							<li><a href="/newsletter">Subscribe</a>
+					</li>
+									</ul>
+		</div>
+	</div>
+</div>
+
+<div class="search group">
+	<div class="container">
+		<form method="POST" action="/ttsearch/do/search/" class="group">
+													<input id="mainsearch" type="text" name="q" placeholder="Search" autofocus="autofocus" tabindex="1" value="" />
+			<button type="submit"><span>Search</span></button>
+		</form>	
+	</div>
+</div>
+
+		
+		<div class="page group">
+	<div class="container">
+									<div class="group m-b-40 superglue">
+			<div class="aspace-label">Advertisement</div>
+			<a href="https://can-newsletter.org/magazine/41-December%202020/" target="_blank">
+				<img class="banner-center img-responsive" src="/uploads/media/raw/5511f423ea5c60fa429c6d8fb97d8ef6.png" alt="CAN in Automation " />
+			</a>
+		</div>
+	
+	
+
+			
+	
+	
+
+<div class="row">
+
+	<div class="col-md-9">
+																								<p class="deckhead" style="color:#000!important">Clarification</p>
+																
+							
+
+
+		<h1>ISO CAN FD or non-ISO CAN FD</h1>
+		<div class="group"><p><strong>No doubt: in future all products will be compliant to the ISO standard (ISO 11898-1). But currently some components and tools </strong><strong>still </strong><strong>support the original CAN FD protocol, which is not compliant to the ISO standard.</strong><!-- pagebreak --></p>
+<figure class="medium right">
+	<img src="/media/do/renderImage/4880/C" alt="" />
+	<figcaption>The products tested during the last CAN FD plug fest supported the non-ISO CAN FD protocol; they will be updated in order to be compliant with the ISO standard (Photo: CiA)</figcaption>
+</figure>
+
+
+<p>IN ORDER TO AVOID MISUNDERSTANDINGS, CAN in Automation (CiA) recommends using the terms &ldquo;ISO CAN FD&rdquo; and &ldquo;non-ISO CAN FD&rdquo;. All products compliant to the upcoming ISO standard 11898-2:2015 should be called &ldquo;ISO CAN FD&rdquo;. Products implementing Bosch&rsquo;s original protocol should be named &ldquo;non-ISO CAN FD&rdquo;. They will be on the market for an intermediate phase &ndash; mainly for evaluation and pre-development purposes.</p>
+<p>The CAN FD protocol has been changed to improve the failure detection capability. In particular, a 3-bit stuff-bit counter was introduced and an additional parity bit. Also, the value for the CRC calculation has been changed. These improvements make the ISO CAN FD protocol incompatible to the original CAN FD protocol developed by Bosch. The responsible ISO working group has finalized its document and has submitted it for the DIS (Draft International Standard) voting procedure.</p>
+<p>&ldquo;CiA will use the proposed terminology in all of its publications,&rdquo; said Holger Zeltwanger, CiA Managing Director. &ldquo;We ask all CAN FD product and service providers to do the same. There should be no data-sheet stating that the product is CAN FD compliant without the prefixes &lsquo;ISO&rsquo; or &lsquo;non-ISO&rsquo; indicating which protocol is implemented.&rdquo;</p>
+<p>The CAN high-speed physical layer is also under review. In order to harmonize the terminology and to avoid specification inconsistencies, the ISO 11898-2, ISO 11898-5-, and ISO 11898-6 standards will be merged to ISO 11898-2:2015. The ISO working group has submitted the merged document for CD (Committee Draft) balloting to the ISO Central Secretariat. Engineering samples of transceiver chips fulfilling the additional requirements regarding bit symmetry are already on the market. For those products the compliancy reference should be made clear too: ISO 11898-2:2015 or ISO 11898-2:2016 depending on the real publication date.</p></div>
+
+
+
+
+		<div class="pub-sponsored group">
+			<!-- [getSponsoredLinks_rev5(can): prefetched sponsored links:  -->
+
+<!-- [getSponsoredLinks_rev5(can): confirmed products: 0 -->
+
+			<!-- [getSponsoredLinks_rev5(canopen): prefetched sponsored links:  -->
+
+<!-- [getSponsoredLinks_rev5(canopen): confirmed products: 0 -->
+
+			<!-- [getSponsoredLinks_rev5(j1939): prefetched sponsored links:  -->
+
+<!-- [getSponsoredLinks_rev5(j1939): confirmed products: 0 -->
+
+
+			
+			
+
+			
+			
+			
+		</div>
+
+
+		<br />
+		<br />
+		<div class="pub-nav m-b-20 group">
+
+			<p><strong>News and reports</strong></p>
+			<div class="row reports">
+				<!-- RelevantPublication: 3126  -->
+<!-- RelevantPublication: 3115  -->
+<!-- RelevantPublication: 3103  -->
+<!-- RelevantPublication: 3099  -->
+<!-- RelevantPublication: 3071  -->
+<!-- RelevantPublication: 3053  -->
+				
+														<div class="col-md-4 ">
+						<div class="list-item newsAndReports group ">
+							<a href="/hardware/semiconductors/141203_qa_peak-system_uwe-wilhelm" target="_blank">  
+
+
+
+																								<p class="deckhead">Q&A with Peak-System</p>
+																
+							
+									<h2 class="title small">“We use our own FPGA CAN FD core”</h2>
+									<p>Uwe Wilhelm of Peak System (Germany) answered five questions about the popularity of CAN&nbsp;FD pro...</p>
+							</a>
+						</div>
+					</div>
+
+														<div class="col-md-4 ">
+						<div class="list-item newsAndReports group ">
+							<a href="/hardware/gateways/141127_two-interfaces-for-can-fd_pxi-6153_goepel" target="_blank">  
+
+
+
+																								<p class="deckhead">Communication controller</p>
+																
+							
+									<h2 class="title small">Two interfaces for CAN FD</h2>
+									<p>With the PXI 6153 FD interface, Goepel Electronics offers a communication controller for CAN FD. In ...</p>
+							</a>
+						</div>
+					</div>
+
+														<div class="col-md-4 ">
+						<div class="list-item newsAndReports group ">
+							<a href="/engineering/engineering-miscellaneous/141120_getting-to-know-can-fd_automotive-networks_hanser" target="_blank">  
+
+
+
+																								<p class="deckhead">Automotive Networks</p>
+																
+							
+									<h2 class="title small">Getting to know CAN FD</h2>
+									<p>Hanser&rsquo;s Automotive Networks conference in Stuttgart concentrated on Ethernet, but left some r...</p>
+							</a>
+						</div>
+					</div>
+
+														<div class="col-md-4 ">
+						<div class="list-item newsAndReports group ">
+							<a href="/software/software-miscellaneous/141119_more-can-fd-networks-will-follow_qa_vector" target="_blank">  
+
+
+
+																								<p class="deckhead">Q&A with Vector</p>
+																
+							
+									<h2 class="title small">“More CAN FD networks will follow”</h2>
+									<p>Peter Decker from Vector answered our questions about plans for CAN FD at Vector, CAN FD tools, and ...</p>
+							</a>
+						</div>
+					</div>
+
+														<div class="col-md-4 ">
+						<div class="list-item newsAndReports group ">
+							<a href="/hardware/semiconductors/141110_transceiver-suitable-for-up-to-5-mbits_atmel" target="_blank">  
+
+
+
+																								<p class="deckhead">Transceiver</p>
+																
+							
+									<h2 class="title small">Suitable for up to 5 Mbit/s</h2>
+									<p>Atmel has launched a series of high-speed transceiver chips for CAN FD networks, which provides opti...</p>
+							</a>
+						</div>
+					</div>
+
+														<div class="col-md-4 ">
+						<div class="list-item newsAndReports group ">
+							<a href="/engineering/engineering-miscellaneous/141031_fourteen-nodes-communicate-without-error-frames" target="_blank">  
+
+
+
+																								<p class="deckhead">CAN FD plugfest</p>
+																
+							
+									<h2 class="title small">Fourteen nodes and no error frames</h2>
+									<p>The plugfest showed that multiple devices of different manufacturers can successfully work together ...</p>
+							</a>
+						</div>
+					</div>
+
+							</div>
+		</div>
+
+		
+	</div>
+
+	<div class="col-md-3 aside">
+
+		<div class="pub-download hidden-md-down m-b-10"><a href="/catalogue/do/printArticle/id/141209_iso-can-fd-or-non-iso-can-fd/141209_iso-can-fd-or-non-iso-can-fd.pdf" onClick="_gaq.push(['_trackPageview', '/141209_iso-can-fd-or-non-iso-can-fd.pdf']);" target="_blank"><span>Save as PDF</span></a></div>
+
+		<div class="pub-info">
+						<dl>
+				<dt><span class="date">Publish date</span></dt>
+				<dd><strong>2014-12-09</strong></dd>
+				
+									<dt><span class="company">Company</span></dt>
+					<dd><p><a href="http://www.can-cia.org" target="_blank">CiA</a><br /><a href="http://www.iso.org" target="_blank">ISO</a></p></dd>
+								<dt><span class="bread">Breadcrumb</span></dt>
+				<dd>
+					
+<ul class="info-bread">
+		<li><a href="/engineering/">Engineering</a> &#8674;</li>
+				<li><a href="/engineering/standardization/">Standardization</a></li>
+			</ul>
+				</dd>
+
+
+
+			</dl>
+		</div>
+
+		<div class="pub-sharer">
+			<ul>
+				<li class="fb"><a href="http://www.facebook.com/sharer.php?u=https://can-newsletter.org/engineering/standardization/141209_iso-can-fd-or-non-iso-can-fd/" target="_blank">Share on Facebook</a></li>
+				<li class="tw"><a href="https://twitter.com/share?url=https://can-newsletter.org/engineering/standardization/141209_iso-can-fd-or-non-iso-can-fd/" target="_blank">Share on Twitter</a></li>
+			</ul>
+		</div>
+
+
+
+		
+
+
+
+	</div>
+
+</div>
+
+	
+
+
+
+	
+		
+
+
+
+		</div>
+</div>
+		<div class="footer group">
+		<ul class="footer-service">
+			<li><a href="/service/privacy/">Privacy policy</a></li>
+			
+			<li><a href="https://www.can-cia.org/trademarks/" target="_blank">Trademarks</a></li>
+			<li><a href="/service/contact/">Contact</a></li>
+			<li><a href="/service/tos/">Terms of service</a></li>
+			<li><a href="/service/imprint/">Imprint</a></li>
+		</ul>
+		<p class="footer-info"><a href="https://www.can-cia.org/news/" target="_blank">&copy; 2021  CAN in Automation GmbH. All rights reserved.</a></p>
+</div>
+
+
+
+	<!-- GA -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
+		Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-47508865-1', 'can-newsletter.org');
+		  ga('send', 'pageview');
+		  
+	</script>
+	<!-- End GA Tracking Code -->
+	<!-- Piwik -->
+	<script type="text/javascript">
+	  var _paq = _paq || [];
+	  _paq.push(["setDomains", ["*.can-newsletter.org"]]);
+	  _paq.push(['trackPageView']);
+	  _paq.push(['enableLinkTracking']);
+	  (function() {
+	    var u="//analytics.ticktoo.com/";
+	    _paq.push(['setTrackerUrl', u+'piwik.php']);
+	    _paq.push(['setSiteId', 70]);
+	    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+	    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+	  })();
+	</script>
+	<noscript><p><img src="//analytics.ticktoo.com/piwik.php?idsite=70" style="border:0;" alt="" /></p></noscript>
+	<!-- End Piwik Code -->
+	
+
+	</body>
+	</html>
