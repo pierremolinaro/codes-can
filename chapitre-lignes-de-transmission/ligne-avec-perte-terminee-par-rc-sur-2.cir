@@ -1,12 +1,12 @@
 Ligne avec perte ouverte
 
-.MODEL maLigne LTRA(R=70m L=600n C=41.7p G=0 LEN=1.0)
+.MODEL maLigne LTRA(R=2.6 L=600n C=41.7p G=0 LEN=10)
 O1 0 1 0 2 maLigne
-VCC 1 0 PULSE(0 5 0m 1n 1n 500m)
+VCC 1 0 PULSE(0 5 0m 1n 1u 500m)
 R1 0 2 60
 
 .control
-tran 10n 100n 0 1n
+tran 10n 1u 0 1n
 plot v(2)
 .endc
 .end

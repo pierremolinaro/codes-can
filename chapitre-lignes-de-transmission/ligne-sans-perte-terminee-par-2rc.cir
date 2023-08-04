@@ -1,11 +1,11 @@
 Ligne sans perte terminée par 2 RC
 
-T1 0 1 0 2 Z0=120 TD=5n
-VCC 1 0 PULSE(0 5 0m 1n 1n 500m)
+T1 0 1 0 2 Z0=120 TD=50n
+VCC 1 0 PULSE(0 5 0m 1n 1u 500m)
 R1 0 2 240
 
 .control
-tran 10n 100n 0 1n
+tran 10n 1u 0 1n
 plot v(2)
 .endc
 .end
