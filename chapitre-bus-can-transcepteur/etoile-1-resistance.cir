@@ -1,4 +1,4 @@
-Étoile 6 branches, résistances réparties
+Étoile 6 branches, 1 résistance
 
 T1 0 1 0 2 Z0=120 TD=50n
 T2 0 2 0 3 Z0=120 TD=50n
@@ -6,15 +6,11 @@ T3 0 2 0 4 Z0=120 TD=50n
 T4 0 2 0 5 Z0=120 TD=50n
 T5 0 2 0 6 Z0=120 TD=50n
 T6 0 2 0 7 Z0=120 TD=50n
-R2 0 3 360
-R3 0 4 360
-R4 0 5 360
-R5 0 6 360
-R6 0 7 360
+R2 0 3 120
 VCC 1 0 PULSE(0 5 0m 1n 1n 500m)
 
 .control
 tran 10n 1000n 0 1n
-plot v(5)
+plot v(6)
 .endc
 .end
