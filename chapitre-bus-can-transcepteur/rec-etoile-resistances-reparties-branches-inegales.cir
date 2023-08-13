@@ -18,7 +18,7 @@ SW1 0 11 10 0 inter
 VCC 10 0 PULSE(2 0 0m 1n 1n 500m)
 
 .control
-tran 10n 1000n 0 3n
+tran 10n 1000n 0 4n
 plot v(6)
 .endc
 .end
