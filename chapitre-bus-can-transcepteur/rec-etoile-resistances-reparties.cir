@@ -1,0 +1,24 @@
+Étoile 6 branches, résistances réparties
+
+.MODEL inter SW(RON=1m ROFF=10MEG VT=1 VH=.1)
+T1 1 0 2 0 Z0=120 TD=50n
+T2 2 0 3 0 Z0=120 TD=50n
+T3 2 0 4 0 Z0=120 TD=50n
+T4 2 0 5 0 Z0=120 TD=50n
+T5 2 0 6 0 Z0=120 TD=50n
+T6 2 0 7 0 Z0=120 TD=50n
+R1 0 1 360
+R2 0 3 360
+R3 0 4 360
+R4 0 5 360
+R5 0 6 360
+R6 0 7 360
+VDD 1 11 DC 2
+SW1 0 11 10 0 inter
+VCC 10 0 PULSE(2 0 0m 1n 1n 500m)
+
+.control
+tran 10n 1000n 0 1n
+plot v(6)
+.endc
+.end
