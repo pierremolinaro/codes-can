@@ -4,12 +4,11 @@
 
 #include <ACAN_T4.h>
 
-static const byte POUSSOIR = 0 ;
-
 void setup () {
   pinMode (LED_BUILTIN, OUTPUT) ;
-  pinMode (POUSSOIR, INPUT_PULLUP) ;
   ACAN_T4_Settings settings (1000 * 1000) ;
+  settings.mTxPinIsOpenCollector = true ;
+  settings.mRxPinConfiguration = ACAN_T4_Settings::PULLUP_22k ;
   const uint32_t errorCode = ACAN_T4::can1.begin (settings) ;
    if (0 != errorCode) {
     while (1) {
@@ -19,42 +18,18 @@ void setup () {
   }
 }
 
-enum class ÉtatPoussoir {relâché, filtrageAppui, appuyé, filtrageRelachement} ;
-
-static ÉtatPoussoir gÉtatPoussoir = ÉtatPoussoir::relâché ;
 static uint32_t gDateClignotement = 0 ;
-static uint32_t gDateFinFiltrage = 0 ;
+static uint32_t gDateÉmission = 1000 ;
 
 void loop () {
   if (gDateClignotement <= millis ()) {
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }
-  switch (gÉtatPoussoir) {
-  case ÉtatPoussoir::relâché :
-    if (!digitalRead (POUSSOIR)) {
-      gÉtatPoussoir = ÉtatPoussoir::filtrageAppui ;
-      gDateFinFiltrage = millis () + 100 ;
-      CANMessage message ; // Message M0
-      ACAN_T4::can1.tryToSend (message) ;
-    }
-    break ;
-  case ÉtatPoussoir::filtrageAppui :
-    if (gDateFinFiltrage <= millis ()) {
-      gÉtatPoussoir = ÉtatPoussoir::appuyé ;
-    }
-    break ;
-  case ÉtatPoussoir::appuyé :
-    if (digitalRead (POUSSOIR)) {
-      gÉtatPoussoir = ÉtatPoussoir::filtrageRelachement ;
-      gDateFinFiltrage = millis () + 100 ;
-    }
-    break ;
-  case ÉtatPoussoir::filtrageRelachement :
-    if (gDateFinFiltrage <= millis ()) {
-      gÉtatPoussoir = ÉtatPoussoir::relâché ;
-    }
-    break ;
+  if (gDateÉmission <= millis ()) {
+    gDateÉmission += 1 ;
+    CANMessage message ; // Message M0
+    ACAN_T4::can1.tryToSend (message) ;
   }
 }
 

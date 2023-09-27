@@ -12,6 +12,8 @@
 void setup () {
   pinMode (LED_BUILTIN, OUTPUT) ;
   ACAN_T4_Settings settings (1000 * 1000) ;
+  settings.mTxPinIsOpenCollector = true ;
+  settings.mRxPinConfiguration = ACAN_T4_Settings::PULLUP_22k ;
   const uint32_t errorCode = ACAN_T4::can1.begin (settings) ;
    if (0 != errorCode) {
     while (1) {
@@ -30,7 +32,7 @@ void loop () {
   }
   CANMessage message ;
   if (ACAN_T4::can1.receive (message) && (message.id == 0)) {
-    message.id = 3 ; // Message M1
+    message.id = 1 ; // Message M1
     ACAN_T4::can1.tryToSend (message) ;
   }
 }
