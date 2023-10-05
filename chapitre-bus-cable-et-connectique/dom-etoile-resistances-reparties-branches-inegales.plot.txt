@@ -1,4 +1,4 @@
-\draw[thick,draw=\couleurCourbeSpice] (0.0, 0.0)
+\draw[thick,draw=\couleurCourbe] (0.0, 0.0)
 -- (9.999999999999999e-05, 0.0)
 -- (0.00019999999999999998, 0.0)
 -- (0.00039999999999999996, 0.0)

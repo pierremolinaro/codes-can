@@ -21,7 +21,7 @@ for aLine in lines {
 }
 //print ("\(points.count) points")
 let (x0, y0) = points.remove (at: 0)
-var s = "\\draw[thick,draw=\\couleurCourbeSpice] (\(x0), \(y0))\n"
+var s = "\\draw[thick,draw=\\couleurCourbe] (\(x0), \(y0))\n"
 for (x, y) in points {
   s += "-- (\(x), \(y))\n"
 }
