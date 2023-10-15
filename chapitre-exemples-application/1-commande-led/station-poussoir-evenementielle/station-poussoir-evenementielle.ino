@@ -1,5 +1,5 @@
 #ifndef ARDUINO_XIAO_ESP32S3
-  #error "Ce croquis doit être compilé pour la carte XIAO ESP32S3"
+#error "Ce croquis doit être compilé pour la carte XIAO ESP32S3"
 #endif
 
 #include <ACAN_ESP32.h>
@@ -20,8 +20,6 @@ void setup () {
 }
 
 static uint32_t gDateClignotement = 0 ;
-static const uint32_t PERIODE_EMISSION = 20 ; // En millisecondes
-static uint32_t gDateEmission = 0 ;
 static bool gPoussoirAppuye = false ;
 
 void loop () {
@@ -38,15 +36,6 @@ void loop () {
     const bool sent = ACAN_ESP32::can.tryToSend (message) ;
     if (sent) {
       gPoussoirAppuye = poussoirAppuye ;
-    }
-  }else if (gDateEmission <= millis ()) {
-    CANMessage message ;
-    message.id = 0x120 ;
-    message.len = 1 ;
-    message.data [0] = poussoirAppuye ;
-    const bool sent = ACAN_ESP32::can.tryToSend (message) ;
-    if (sent) {
-      gDateEmission += PERIODE_EMISSION ;
     }
   }
 }

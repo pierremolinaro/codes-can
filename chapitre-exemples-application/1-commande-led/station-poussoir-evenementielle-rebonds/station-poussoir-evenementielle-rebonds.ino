@@ -1,5 +1,5 @@
 #ifndef ARDUINO_XIAO_ESP32S3
-  #error "Ce croquis doit être compilé pour la carte XIAO ESP32S3"
+#error "Ce croquis doit être compilé pour la carte XIAO ESP32S3"
 #endif
 
 #include <ACAN_ESP32.h>
