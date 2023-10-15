@@ -1,6 +1,7 @@
 Étoile 6 branches, 1 résistance
 
-.MODEL inter SW(RON=1m ROFF=10MEG VT=1 VH=.1)
+.MODEL inter SW(RON=1m
++ ROFF=10MEG VT=1 VH=.1)
 T1 1 0 2 0 Z0=120 TD=50n
 T2 2 0 3 0 Z0=120 TD=50n
 T3 2 0 4 0 Z0=120 TD=50n

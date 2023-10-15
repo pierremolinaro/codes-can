@@ -21,11 +21,11 @@ rm $DIR/f.cir
 $DIR/extraction-plot-spice.swift dom-etoile-1-resistance-branches-inegales.plot 1e7
 rm $DIR/dom-etoile-1-resistance-branches-inegales.plot
 
-sed 's/plot v(6)/print v(6) > dom-etoile-resistances-reparties-branches-inegales.plot/' $DIR/dom-etoile-resistances-reparties-branches-inegales.cir > f.cir
+sed 's/plot v(6)/print v(6) > dom-etoile-res-reparties-branches-inegales.plot/' $DIR/dom-etoile-res-reparties-branches-inegales.cir > f.cir
 /Applications/MacSpice.app/contents/MacOS/MacSpice -n -b $DIR/f.cir
 rm $DIR/f.cir
-$DIR/extraction-plot-spice.swift dom-etoile-resistances-reparties-branches-inegales.plot 1e7
-rm $DIR/dom-etoile-resistances-reparties-branches-inegales.plot
+$DIR/extraction-plot-spice.swift dom-etoile-res-reparties-branches-inegales.plot 1e7
+rm $DIR/dom-etoile-res-reparties-branches-inegales.plot
 
 
 
@@ -50,9 +50,9 @@ rm $DIR/f.cir
 $DIR/extraction-plot-spice.swift rec-etoile-1-resistance-branches-inegales.plot 1e7
 rm $DIR/rec-etoile-1-resistance-branches-inegales.plot
 
-sed 's/plot v(6)/print v(6) > rec-etoile-resistances-reparties-branches-inegales.plot/' $DIR/rec-etoile-resistances-reparties-branches-inegales.cir > f.cir
+sed 's/plot v(6)/print v(6) > rec-etoile-res-reparties-branches-inegales.plot/' $DIR/rec-etoile-res-reparties-branches-inegales.cir > f.cir
 /Applications/MacSpice.app/contents/MacOS/MacSpice -n -b $DIR/f.cir
 rm $DIR/f.cir
-$DIR/extraction-plot-spice.swift rec-etoile-resistances-reparties-branches-inegales.plot 1e7
-rm $DIR/rec-etoile-resistances-reparties-branches-inegales.plot
+$DIR/extraction-plot-spice.swift rec-etoile-res-reparties-branches-inegales.plot 1e7
+rm $DIR/rec-etoile-res-reparties-branches-inegales.plot
 
