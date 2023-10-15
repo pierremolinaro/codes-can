@@ -1,5 +1,5 @@
 #ifndef ARDUINO_XIAO_ESP32S3
-  #error "Ce croquis doit être compilé pour la carte XIAO ESP32S3"
+#error "Ce croquis doit être compilé pour la carte XIAO ESP32S3"
 #endif
 
 #include <ACAN_ESP32.h>
@@ -20,17 +20,21 @@ void setup() {
 }
 
 static uint32_t gDateClignotement = 0;
+static bool gPoussoirAppuye = false;
 
 void loop() {
-  if (gDateClignotement <= millis()) {
+  if (gDateClignotement <= millis ()) {
     gDateClignotement += 500;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
   CANMessage message;
-  if (ACAN_ESP32::can.receive (message)) {
+  if (ACAN_ESP32::can.receive(message)) {
     if (!message.ext && !message.rtr && (message.id == 0x123) && (message.len == 1)) {
-      const bool etatPoussoir = message.data [0] == 0x01 ;
-      digitalWrite (LED, etatPoussoir) ;
+      const bool etatPoussoir = message.data[0] == 0x01;
+      if (etatPoussoir && !gPoussoirAppuye) {
+        digitalWrite(LED, !digitalRead(LED));
+      }
+      gPoussoirAppuye = etatPoussoir;
     }
   }
- }
+}

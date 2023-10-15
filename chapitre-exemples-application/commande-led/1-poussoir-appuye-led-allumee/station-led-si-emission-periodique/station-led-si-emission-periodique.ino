@@ -20,10 +20,17 @@ void setup() {
 }
 
 static uint32_t gDateClignotement = 0;
+static const uint32_t DELAI_ALERTE_RECEPTION = 25 ; // ms
+static bool gReceptionOk = true ;
+static uint32_t gEcheanceReceptionMessage = 0;
 
 void loop() {
+  if (gReceptionOk && (gEcheanceReceptionMessage <= millis ())) {
+    gReceptionOk = false ;
+    gDateClignotement = millis () ;
+  }
   if (gDateClignotement <= millis()) {
-    gDateClignotement += 500;
+    gDateClignotement += gReceptionOk ? 500 : DELAI_ALERTE_RECEPTION ;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
   CANMessage message;
@@ -31,6 +38,8 @@ void loop() {
     if (!message.ext && !message.rtr && (message.id == 0x123) && (message.len == 1)) {
       const bool etatPoussoir = message.data [0] == 0x01 ;
       digitalWrite (LED, etatPoussoir) ;
+      gEcheanceReceptionMessage = millis () + DELAI_ALERTE_RECEPTION ;
+      gReceptionOk = true ;
     }
   }
  }
