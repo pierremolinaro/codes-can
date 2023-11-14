@@ -19,10 +19,22 @@ void setup () {
   }
 }
 
+static bool emettreMessage (const bool & inPoussoirAppuye) {
+  CANMessage message ;
+  message.id = 0x120 ;
+  message.len = 1 ;
+  message.data [0] = inPoussoirAppuye ;
+  const bool sent = ACAN_ESP32::can.tryToSend (message) ;
+  return sent ;
+}
+
 static uint32_t gDateClignotement = 0 ;
-static const uint32_t PERIODE_EMISSION = 20 ; // En millisecondes
-static uint32_t gDateEmission = 0 ;
-static bool gPoussoirAppuye = false ;
+
+static const uint32_t PERIODE_EMISSION = 200 ; // En millisecondes
+enum class EtatPoussoir { relache, apresAppui, appuye, apresRelachement } ;
+static EtatPoussoir gEtatPoussoir = EtatPoussoir::relache ;
+static uint32_t gDateDerniereEmissionEtatPoussoir = 0 ;
+static const uint32_t DELAI_REBONDS = 10 ; // ms
 
 void loop () {
   if ((millis() - gDateClignotement) >= 500) {
@@ -30,24 +42,45 @@ void loop () {
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }
   const bool poussoirAppuye = digitalRead (POUSSOIR) == LOW ;
-  if (gPoussoirAppuye != poussoirAppuye) {
-    CANMessage message ;
-    message.id = 0x120 ;
-    message.len = 1 ;
-    message.data [0] = poussoirAppuye ;
-    const bool sent = ACAN_ESP32::can.tryToSend (message) ;
-    if (sent) {
-      gPoussoirAppuye = poussoirAppuye ;
+  switch (gEtatPoussoir) {
+  case EtatPoussoir::relache :
+    if (poussoirAppuye) {
+      const bool sent = emettreMessage (true) ;
+      if (sent) {
+        gDateDerniereEmissionEtatPoussoir = millis () ;
+        gEtatPoussoir = EtatPoussoir::apresAppui ;
+      }
+    }else if ((millis () - gDateDerniereEmissionEtatPoussoir) >= PERIODE_EMISSION) {
+      const bool sent = emettreMessage (true) ;
+      if (sent) {
+        gDateDerniereEmissionEtatPoussoir += PERIODE_EMISSION ;
+      }
     }
-  }else if (gDateEmission <= millis ()) {
-    CANMessage message ;
-    message.id = 0x120 ;
-    message.len = 1 ;
-    message.data [0] = poussoirAppuye ;
-    const bool sent = ACAN_ESP32::can.tryToSend (message) ;
-    if (sent) {
-      gDateEmission += PERIODE_EMISSION ;
+    break ;
+  case EtatPoussoir::apresAppui :
+    if ((millis () - gDateDerniereEmissionEtatPoussoir) >= DELAI_REBONDS) {
+      gEtatPoussoir = EtatPoussoir::appuye ;
     }
+    break ;
+  case EtatPoussoir::appuye :
+    if (!poussoirAppuye){
+      const bool sent = emettreMessage (false) ;
+      if (sent) {
+        gDateDerniereEmissionEtatPoussoir = millis () ;
+        gEtatPoussoir = EtatPoussoir::apresRelachement ;
+      }
+    }else if ((millis () - gDateDerniereEmissionEtatPoussoir) >= PERIODE_EMISSION) {
+      const bool sent = emettreMessage (false) ;
+      if (sent) {
+        gDateDerniereEmissionEtatPoussoir += PERIODE_EMISSION ;
+      }
+    }
+    break ;
+  case EtatPoussoir::apresRelachement :
+    if ((millis () - gDateDerniereEmissionEtatPoussoir) >= DELAI_REBONDS) {
+      gEtatPoussoir = EtatPoussoir::relache ;
+    }
+    break ;
   }
 }
 

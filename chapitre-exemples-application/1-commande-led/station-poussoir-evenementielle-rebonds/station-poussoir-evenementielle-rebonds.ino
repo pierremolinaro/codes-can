@@ -19,11 +19,20 @@ void setup () {
   }
 }
 
-static uint32_t gDateClignotement = 0 ;
-enum class EtatPoussoir { relache, apresAppui, appuye, apresRelachement } ;
+static bool emettreMessage (const bool & inPoussoirAppuye) {
+  CANMessage message ;
+  message.id = 0x120 ;
+  message.len = 1 ;
+  message.data [0] = inPoussoirAppuye ;
+  const bool sent = ACAN_ESP32::can.tryToSend (message) ;
+  return sent ;
+}
 
+static uint32_t gDateClignotement = 0 ;
+
+enum class EtatPoussoir { relache, apresAppui, appuye, apresRelachement } ;
 static EtatPoussoir gEtatPoussoir = EtatPoussoir::relache ;
-static uint32_t gDateChangementEtatPoussoir = 0 ;
+static uint32_t gDateEmissionEtatPoussoir = 0 ;
 static const uint32_t DELAI_REBONDS = 10 ; // ms
 
 void loop () {
@@ -35,37 +44,29 @@ void loop () {
   switch (gEtatPoussoir) {
   case EtatPoussoir::relache :
     if (poussoirAppuye) {
-      CANMessage message ;
-      message.id = 0x120 ;
-      message.len = 1 ;
-      message.data [0] = poussoirAppuye ;
-      const bool sent = ACAN_ESP32::can.tryToSend (message) ;
+      const bool sent = emettreMessage (true) ;
       if (sent) {
         gEtatPoussoir = EtatPoussoir::apresAppui ;
-        gDateChangementEtatPoussoir = millis () ;
+        gDateEmissionEtatPoussoir = millis () ;
       }
     }
     break ;
   case EtatPoussoir::apresAppui :
-    if ((millis () - gDateChangementEtatPoussoir) >= DELAI_REBONDS) {
+    if ((millis () - gDateEmissionEtatPoussoir) >= DELAI_REBONDS) {
       gEtatPoussoir = EtatPoussoir::appuye ;
     }
     break ;
   case EtatPoussoir::appuye :
     if (!poussoirAppuye) {
-      CANMessage message ;
-      message.id = 0x120 ;
-      message.len = 1 ;
-      message.data [0] = poussoirAppuye ;
-      const bool sent = ACAN_ESP32::can.tryToSend (message) ;
+      const bool sent = emettreMessage (false) ;
       if (sent) {
         gEtatPoussoir = EtatPoussoir::apresRelachement ;
-        gDateChangementEtatPoussoir = millis () ;
+        gDateEmissionEtatPoussoir = millis () ;
       }
     }
     break ;
   case EtatPoussoir::apresRelachement :
-    if ((millis () - gDateChangementEtatPoussoir) >= DELAI_REBONDS) {
+    if ((millis () - gDateEmissionEtatPoussoir) >= DELAI_REBONDS) {
       gEtatPoussoir = EtatPoussoir::relache ;
     }
     break ;

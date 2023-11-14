@@ -19,6 +19,15 @@ void setup () {
   }
 }
 
+static bool emettreMessage (const bool & inPoussoirAppuye) {
+  CANMessage message ;
+  message.id = 0x120 ;
+  message.len = 1 ;
+  message.data [0] = inPoussoirAppuye ;
+  const bool sent = ACAN_ESP32::can.tryToSend (message) ;
+  return sent ;
+}
+
 static uint32_t gDateClignotement = 0 ;
 static bool gPoussoirAppuye = false ;
 
@@ -29,11 +38,7 @@ void loop () {
   }
   const bool poussoirAppuye = digitalRead (POUSSOIR) == LOW ;
   if (gPoussoirAppuye != poussoirAppuye) {
-    CANMessage message ;
-    message.id = 0x120 ;
-    message.len = 1 ;
-    message.data [0] = poussoirAppuye ;
-    const bool sent = ACAN_ESP32::can.tryToSend (message) ;
+    const bool sent = emettreMessage (poussoirAppuye) ;
     if (sent) {
       gPoussoirAppuye = poussoirAppuye ;
     }
