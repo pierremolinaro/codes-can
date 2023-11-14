@@ -21,11 +21,11 @@ static uint32_t gDateEmission = 0 ;
 static const uint32_t PERIODE_EMISSION = 5 ; // En millisecondes
 
 void loop () {
-  if (gDateClignotement <= millis()) {
+  if ((millis() - gDateClignotement) >= 500) {
     gDateClignotement += 500 ;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
-  if (gDateEmission <= millis ()) {
+  if (0 <= (millis () - gDateEmission)) {
     CANMessage message ;
     message.id = 0x400 ; // 0x401 pour CAPTEUR1, 0x402 pour CAPTEUR2, ...
     message.len = 1 ;

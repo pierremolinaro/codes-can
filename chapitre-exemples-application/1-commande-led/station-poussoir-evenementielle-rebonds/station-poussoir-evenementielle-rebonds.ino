@@ -20,20 +20,20 @@ void setup () {
 }
 
 static uint32_t gDateClignotement = 0 ;
-enum class EtatPoussoir { relâché, aprèsAppui, appuyé, aprèsRelâchement } ;
+enum class EtatPoussoir { relache, apresAppui, appuye, apresRelachement } ;
 
-static EtatPoussoir gEtatPoussoir = EtatPoussoir::relâché ;
-static uint32_t gEcheancePoussoir = 0 ;
+static EtatPoussoir gEtatPoussoir = EtatPoussoir::relache ;
+static uint32_t gDateChangementEtatPoussoir = 0 ;
 static const uint32_t DELAI_REBONDS = 10 ; // ms
 
 void loop () {
-  if (gDateClignotement <= millis ()) {
+  if ((millis() - gDateClignotement) >= 500) {
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }
   const bool poussoirAppuye = digitalRead (POUSSOIR) == LOW ;
   switch (gEtatPoussoir) {
-  case EtatPoussoir::relâché :
+  case EtatPoussoir::relache :
     if (poussoirAppuye) {
       CANMessage message ;
       message.id = 0x120 ;
@@ -41,25 +41,32 @@ void loop () {
       message.data [0] = poussoirAppuye ;
       const bool sent = ACAN_ESP32::can.tryToSend (message) ;
       if (sent) {
-        gEtatPoussoir = EtatPoussoir::aprèsAppui ;
-        gEcheancePoussoir = millis () + DELAI_REBONDS ;
+        gEtatPoussoir = EtatPoussoir::apresAppui ;
+        gDateChangementEtatPoussoir = millis () ;
       }
     }
     break ;
-  case EtatPoussoir::aprèsAppui :
-    if (gEcheancePoussoir <= millis ()) {
-      gEtatPoussoir = EtatPoussoir::appuyé ;
+  case EtatPoussoir::apresAppui :
+    if ((millis () - gDateChangementEtatPoussoir) >= DELAI_REBONDS) {
+      gEtatPoussoir = EtatPoussoir::appuye ;
     }
     break ;
-  case EtatPoussoir::appuyé :
-   if (!poussoirAppuye) {
-      gEtatPoussoir = EtatPoussoir::aprèsRelâchement ;
-      gEcheancePoussoir = millis () + DELAI_REBONDS ;
-   }
+  case EtatPoussoir::appuye :
+    if (!poussoirAppuye) {
+      CANMessage message ;
+      message.id = 0x120 ;
+      message.len = 1 ;
+      message.data [0] = poussoirAppuye ;
+      const bool sent = ACAN_ESP32::can.tryToSend (message) ;
+      if (sent) {
+        gEtatPoussoir = EtatPoussoir::apresRelachement ;
+        gDateChangementEtatPoussoir = millis () ;
+      }
+    }
     break ;
-  case EtatPoussoir::aprèsRelâchement :
-     if (gEcheancePoussoir <= millis ()) {
-      gEtatPoussoir = EtatPoussoir::relâché ;
+  case EtatPoussoir::apresRelachement :
+    if ((millis () - gDateChangementEtatPoussoir) >= DELAI_REBONDS) {
+      gEtatPoussoir = EtatPoussoir::relache ;
     }
     break ;
   }

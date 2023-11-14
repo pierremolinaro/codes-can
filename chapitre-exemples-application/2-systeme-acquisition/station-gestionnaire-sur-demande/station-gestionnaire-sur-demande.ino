@@ -23,7 +23,7 @@ static uint8_t gMasqueReception = 0 ;
 static const uint32_t PERIODE_ACQUISITION = 5 ; // En millisecondes
 
 void loop () {
-  if (gDateClignotement <= millis()) {
+  if ((millis () - gDateClignotement) >= 500) {
     gDateClignotement += 500;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }

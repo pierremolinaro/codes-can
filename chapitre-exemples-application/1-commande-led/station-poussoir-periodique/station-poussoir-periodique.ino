@@ -24,11 +24,11 @@ static const uint32_t PERIODE_EMISSION = 20 ; // En millisecondes
 static uint32_t gDateEmission = 0 ;
 
 void loop () {
-  if (gDateClignotement <= millis ()) {
+  if ((millis() - gDateClignotement) >= 500) {
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }
-  if (gDateEmission <= millis ()) {
+  if ((millis () - gDateEmission) >= PERIODE_EMISSION) {
     const bool poussoirAppuye = digitalRead (POUSSOIR) == LOW ;
     CANMessage message ;
     message.id = 0x120 ;

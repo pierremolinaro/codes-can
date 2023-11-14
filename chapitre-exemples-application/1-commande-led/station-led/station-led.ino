@@ -22,15 +22,15 @@ void setup() {
 static uint32_t gDateClignotement = 0;
 
 void loop() {
-  if (gDateClignotement <= millis()) {
+  if ((millis() - gDateClignotement) >= 500) {
     gDateClignotement += 500;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
   CANMessage message;
-  if (ACAN_ESP32::can.receive (message)) {
+  if (ACAN_ESP32::can.receive(message)) {
     if (!message.ext && !message.rtr && (message.id == 0x123) && (message.len == 1)) {
-      const bool etatPoussoir = message.data [0] == 0x01 ;
-      digitalWrite (LED, etatPoussoir) ;
+      const bool etatPoussoir = message.data[0] == 0x01;
+      digitalWrite(LED, etatPoussoir);
     }
   }
 }

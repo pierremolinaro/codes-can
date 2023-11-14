@@ -25,11 +25,11 @@ static bool gReceptionOk = true ;
 static uint32_t gEcheanceReceptionMessage = 0;
 
 void loop() {
-  if (gReceptionOk && (gEcheanceReceptionMessage <= millis ())) {
+  if (gReceptionOk && ((millis () - gEcheanceReceptionMessage) >= 0)) {
     gReceptionOk = false ;
     gDateClignotement = millis () ;
   }
-  if (gDateClignotement <= millis()) {
+  if ((millis() - gDateClignotement) >= 500) {
     gDateClignotement += gReceptionOk ? 500 : DELAI_ALERTE_RECEPTION ;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
