@@ -4,7 +4,7 @@
 
 #include <ACAN_ESP32.h>
 
-static const byte LED = 0;
+static const byte LED = 9 ;
 
 void setup() {
   pinMode(LED, OUTPUT);
@@ -19,27 +19,38 @@ void setup() {
   }
 }
 
-static uint32_t gDateClignotement = 0;
+static uint32_t gDateClignotement = 0 ;
+static uint32_t gDateDerniereReceptionMessage = 0 ;
 static const uint32_t DELAI_ALERTE_RECEPTION = 25 ; // ms
+static const uint32_t CLIGNOTEMENT_ALERTE = 50 ; // ms
+static uint32_t gDateClignotementErreurReception = 0 ;
 static bool gReceptionOk = true ;
-static uint32_t gEcheanceReceptionMessage = 0;
 
 void loop() {
-  if (gReceptionOk && ((millis () - gEcheanceReceptionMessage) >= 0)) {
-    gReceptionOk = false ;
-    gDateClignotement = millis () ;
-  }
-  if ((millis() - gDateClignotement) >= 500) {
-    gDateClignotement += gReceptionOk ? 500 : DELAI_ALERTE_RECEPTION ;
+  if (gReceptionOk && ((millis() - gDateClignotement) >= 500)) {
+    gDateClignotement += 500 ;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
   CANMessage message;
   if (ACAN_ESP32::can.receive (message)) {
-    if (!message.ext && !message.rtr && (message.id == 0x123) && (message.len == 1)) {
-      const bool etatPoussoir = message.data [0] == 0x01 ;
-      digitalWrite (LED, etatPoussoir) ;
-      gEcheanceReceptionMessage = millis () + DELAI_ALERTE_RECEPTION ;
+    if (!message.ext && !message.rtr && (message.id == 0x120) && (message.len == 1)) {
+      switch (message.data[0]) {
+      case 0x00 : digitalWrite (LED, LOW); break ;
+      case 0x01 : digitalWrite (LED, HIGH); break ;
+      default: break ;
+      }
+      gDateDerniereReceptionMessage = millis () ;
       gReceptionOk = true ;
     }
   }
- }
+  if (gReceptionOk
+       && ((millis () - gDateDerniereReceptionMessage) >= DELAI_ALERTE_RECEPTION)) {
+    gReceptionOk = false ;
+    gDateClignotementErreurReception = millis () ;
+  }
+  if (!gReceptionOk
+       && ((millis () - gDateClignotementErreurReception) >= CLIGNOTEMENT_ALERTE)) {
+    gDateClignotementErreurReception += CLIGNOTEMENT_ALERTE ;
+    digitalWrite(LED, !digitalRead(LED));
+  }
+}

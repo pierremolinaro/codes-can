@@ -4,7 +4,7 @@
 
 #include <ACAN_ESP32.h>
 
-static const byte POUSSOIR = 0 ;
+static const byte POUSSOIR = 1 ;
 
 void setup () {
   pinMode (POUSSOIR, INPUT_PULLUP) ;

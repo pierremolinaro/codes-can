@@ -4,7 +4,7 @@
 
 #include <ACAN_ESP32.h>
 
-static const byte POUSSOIR = 0 ;
+static const byte POUSSOIR = 1 ;
 
 void setup () {
   pinMode (POUSSOIR, INPUT_PULLUP) ;
@@ -23,25 +23,25 @@ static bool emettreMessage (const bool & inPoussoirAppuye) {
   CANMessage message ;
   message.id = 0x120 ;
   message.len = 1 ;
-  message.data [0] = inPoussoirAppuye ;
+  message.data [0] = inPoussoirAppuye ? 0x01 : 0x00 ;
   const bool sent = ACAN_ESP32::can.tryToSend (message) ;
   return sent ;
 }
 
 static uint32_t gDateClignotement = 0 ;
 static const uint32_t PERIODE_EMISSION = 20 ; // En millisecondes
-static uint32_t gDateEmission = 0 ;
+static uint32_t gDateDerniereEmission = 0 ;
 
 void loop () {
   if ((millis() - gDateClignotement) >= 500) {
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }
-  if ((millis () - gDateEmission) >= PERIODE_EMISSION) {
+  if ((millis () - gDateDerniereEmission) >= PERIODE_EMISSION) {
     const bool poussoirAppuye = digitalRead (POUSSOIR) == LOW ;
     const bool sent = emettreMessage (poussoirAppuye) ;
     if (sent) {
-      gDateEmission += PERIODE_EMISSION ;
+      gDateDerniereEmission += PERIODE_EMISSION ;
     }
   }
 }

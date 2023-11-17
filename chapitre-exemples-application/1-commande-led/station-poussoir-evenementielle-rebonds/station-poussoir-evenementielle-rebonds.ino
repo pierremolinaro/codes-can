@@ -4,7 +4,7 @@
 
 #include <ACAN_ESP32.h>
 
-static const byte POUSSOIR = 0 ;
+static const byte POUSSOIR = 1 ;
 
 void setup () {
   pinMode (POUSSOIR, INPUT_PULLUP) ;
@@ -32,7 +32,7 @@ static uint32_t gDateClignotement = 0 ;
 
 enum class EtatPoussoir { relache, apresAppui, appuye, apresRelachement } ;
 static EtatPoussoir gEtatPoussoir = EtatPoussoir::relache ;
-static uint32_t gDateEmissionEtatPoussoir = 0 ;
+static uint32_t gDateDerniereEmissionEtatPoussoir = 0 ;
 static const uint32_t DELAI_REBONDS = 10 ; // ms
 
 void loop () {
@@ -47,12 +47,12 @@ void loop () {
       const bool sent = emettreMessage (true) ;
       if (sent) {
         gEtatPoussoir = EtatPoussoir::apresAppui ;
-        gDateEmissionEtatPoussoir = millis () ;
+        gDateDerniereEmissionEtatPoussoir = millis () ;
       }
     }
     break ;
   case EtatPoussoir::apresAppui :
-    if ((millis () - gDateEmissionEtatPoussoir) >= DELAI_REBONDS) {
+    if ((millis () - gDateDerniereEmissionEtatPoussoir) >= DELAI_REBONDS) {
       gEtatPoussoir = EtatPoussoir::appuye ;
     }
     break ;
@@ -61,12 +61,12 @@ void loop () {
       const bool sent = emettreMessage (false) ;
       if (sent) {
         gEtatPoussoir = EtatPoussoir::apresRelachement ;
-        gDateEmissionEtatPoussoir = millis () ;
+        gDateDerniereEmissionEtatPoussoir = millis () ;
       }
     }
     break ;
   case EtatPoussoir::apresRelachement :
-    if ((millis () - gDateEmissionEtatPoussoir) >= DELAI_REBONDS) {
+    if ((millis () - gDateDerniereEmissionEtatPoussoir) >= DELAI_REBONDS) {
       gEtatPoussoir = EtatPoussoir::relache ;
     }
     break ;
