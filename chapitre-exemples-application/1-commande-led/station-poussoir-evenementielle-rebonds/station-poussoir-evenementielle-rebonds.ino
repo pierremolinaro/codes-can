@@ -29,7 +29,6 @@ static bool emettreMessage (const bool & inPoussoirAppuye) {
 }
 
 static uint32_t gDateClignotement = 0 ;
-
 enum class EtatPoussoir { relache, apresAppui, appuye, apresRelachement } ;
 static EtatPoussoir gEtatPoussoir = EtatPoussoir::relache ;
 static uint32_t gDateDerniereEmissionEtatPoussoir = 0 ;

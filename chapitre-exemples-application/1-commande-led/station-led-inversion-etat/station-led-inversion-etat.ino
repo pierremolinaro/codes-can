@@ -4,7 +4,7 @@
 
 #include <ACAN_ESP32.h>
 
-static const byte LED = 0;
+static const byte LED = 9;
 
 void setup() {
   pinMode(LED, OUTPUT);
@@ -29,12 +29,14 @@ void loop() {
   }
   CANMessage message;
   if (ACAN_ESP32::can.receive(message)) {
-    if (!message.ext && !message.rtr && (message.id == 0x123) && (message.len == 1)) {
-      const bool etatPoussoir = message.data[0] == 0x01;
-      if (etatPoussoir && !gPoussoirAppuye) {
-        digitalWrite(LED, !digitalRead(LED));
+    if (!message.ext && !message.rtr && (message.id == 0x120) && (message.len == 1)) {
+      if ((message.data[0] & 0xFE) == 0) {
+        const bool poussoirAppuye = message.data[0] != 0;
+        if (poussoirAppuye && !gPoussoirAppuye) {
+          digitalWrite(LED, !digitalRead(LED));
+        }
+        gPoussoirAppuye = poussoirAppuye;
       }
-      gPoussoirAppuye = etatPoussoir;
     }
   }
 }
