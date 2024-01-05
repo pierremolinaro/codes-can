@@ -35,7 +35,7 @@ static uint32_t gDateDerniereEmissionEtatPoussoir = 0 ;
 static const uint32_t DELAI_REBONDS = 10 ; // ms
 
 void loop () {
-  if ((millis() - gDateClignotement) >= 500) {
+  if (int32_t (millis() - gDateClignotement) >= int32_t (500)) {
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }
@@ -51,7 +51,7 @@ void loop () {
     }
     break ;
   case EtatPoussoir::apresAppui :
-    if ((millis () - gDateDerniereEmissionEtatPoussoir) >= DELAI_REBONDS) {
+    if (int32_t(millis()-gDateDerniereEmissionEtatPoussoir) >= int32_t(DELAI_REBONDS)){
       gEtatPoussoir = EtatPoussoir::appuye ;
     }
     break ;
@@ -65,7 +65,7 @@ void loop () {
     }
     break ;
   case EtatPoussoir::apresRelachement :
-    if ((millis () - gDateDerniereEmissionEtatPoussoir) >= DELAI_REBONDS) {
+    if (int32_t(millis()-gDateDerniereEmissionEtatPoussoir) >= int32_t(DELAI_REBONDS)){
       gEtatPoussoir = EtatPoussoir::relache ;
     }
     break ;

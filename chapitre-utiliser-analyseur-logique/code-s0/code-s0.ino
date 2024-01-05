@@ -22,11 +22,11 @@ static uint32_t gDateClignotement = 0 ;
 static uint32_t gDateÉmission = 1000 ;
 
 void loop () {
-  if (gDateClignotement <= millis ()) {
+  if (gDateClignotement <= millis ()) { // Le test échoue après le débordement de millis ()
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }
-  if (gDateÉmission <= millis ()) {
+  if (gDateÉmission <= millis ()) {  // Le test échoue après le débordement de millis ()
     gDateÉmission += 1 ;
     CANMessage message ; // Message M0
     ACAN_T4::can1.tryToSend (message) ;

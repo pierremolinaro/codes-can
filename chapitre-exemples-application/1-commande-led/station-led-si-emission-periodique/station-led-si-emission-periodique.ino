@@ -20,14 +20,14 @@ void setup() {
 }
 
 static uint32_t gDateClignotement = 0 ;
-static uint32_t gDateDerniereReceptionMessage = 0 ;
-static const uint32_t DELAI_ALERTE_RECEPTION = 25 ; // ms
-static const uint32_t CLIGNOTEMENT_ALERTE = 50 ; // ms
+static uint32_t gDateDerniereReception = 0 ;
+static const int32_t DELAI_ALERTE_RECEPTION = 25 ; // ms
+static const int32_t CLIGNOTEMENT_ALERTE = 50 ; // ms
 static uint32_t gDateClignotementErreurReception = 0 ;
 static bool gReceptionOk = true ;
 
 void loop() {
-  if (gReceptionOk && ((millis() - gDateClignotement) >= 500)) {
+  if (gReceptionOk && (int32_t (millis() - gDateClignotement) >= int32_t (500))) {
     gDateClignotement += 500 ;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
@@ -39,18 +39,18 @@ void loop() {
       case 0x01 : digitalWrite (LED, HIGH); break ;
       default: break ;
       }
-      gDateDerniereReceptionMessage = millis () ;
+      gDateDerniereReception = millis () ;
       gReceptionOk = true ;
     }
   }
   if (gReceptionOk
-       && ((millis () - gDateDerniereReceptionMessage) >= DELAI_ALERTE_RECEPTION)) {
+       && (int32_t (millis () - gDateDerniereReception) >= DELAI_ALERTE_RECEPTION)) {
     gReceptionOk = false ;
     gDateClignotementErreurReception = millis () ;
   }
   if (!gReceptionOk
-       && ((millis () - gDateClignotementErreurReception) >= CLIGNOTEMENT_ALERTE)) {
-    gDateClignotementErreurReception += CLIGNOTEMENT_ALERTE ;
+       && (int32_t(millis ()-gDateClignotementErreurReception)>=CLIGNOTEMENT_ALERTE)) {
+    gDateClignotementErreurReception += uint32_t (CLIGNOTEMENT_ALERTE) ;
     digitalWrite(LED, !digitalRead(LED));
   }
 }

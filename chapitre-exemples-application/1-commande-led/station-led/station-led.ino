@@ -22,7 +22,7 @@ void setup() {
 static uint32_t gDateClignotement = 0;
 
 void loop() {
-  if ((millis() - gDateClignotement) >= 500) {
+  if (int32_t (millis() - gDateClignotement) >= int32_t (500)) {
     gDateClignotement += 500;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }

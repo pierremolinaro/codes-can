@@ -17,22 +17,21 @@ void setup () {
 }
 
 static uint32_t gDateClignotement = 0 ;
-static uint32_t gDateEmission = 0 ;
-static const uint32_t PERIODE_EMISSION = 5 ; // En millisecondes
+static const uint32_t PERIODE_EMISSION = 2 ; // En millisecondes
+static const uint32_t DATE_PREMIERE_EMISSION = 1000 ;
+static uint32_t gDateDerniereEmission = DATE_PREMIERE_EMISSION - PERIODE_EMISSION ;
 
 void loop () {
-  if ((millis() - gDateClignotement) >= 500) {
+  if (int32_t (millis() - gDateClignotement) >= int32_t (500)) {
     gDateClignotement += 500 ;
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
-  if (0 <= (millis () - gDateEmission)) {
-    CANMessage message ;
-    message.id = 0x400 ; // 0x401 pour CAPTEUR1, 0x402 pour CAPTEUR2, ...
-    message.len = 1 ;
-    message.data [0] = 0x01 ;
+  if (int32_t (millis () - gDateDerniereEmission) >= int32_t (PERIODE_EMISSION)) {
+    CANMessage message ; // Par défaut, message.len est égal à 0
+    message.id = 0x400 ; // 0x401 pour CAPTEUR1
     const bool ok = ACAN_ESP32::can.tryToSend (message) ;
     if (ok) {
-      gDateEmission += PERIODE_EMISSION ;
+      gDateDerniereEmission += PERIODE_EMISSION ;
     }
   }
 }

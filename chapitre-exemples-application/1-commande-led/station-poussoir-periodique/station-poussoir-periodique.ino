@@ -33,11 +33,11 @@ static const uint32_t PERIODE_EMISSION = 20 ; // En millisecondes
 static uint32_t gDateDerniereEmission = 0 ;
 
 void loop () {
-  if ((millis() - gDateClignotement) >= 500) {
+  if (int32_t (millis() - gDateClignotement) >= int32_t (500)) {
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }
-  if ((millis () - gDateDerniereEmission) >= PERIODE_EMISSION) {
+  if (int32_t (millis () - gDateDerniereEmission) >= int32_t (PERIODE_EMISSION)) {
     const bool poussoirAppuye = digitalRead (POUSSOIR) == LOW ;
     const bool sent = emettreMessage (poussoirAppuye) ;
     if (sent) {

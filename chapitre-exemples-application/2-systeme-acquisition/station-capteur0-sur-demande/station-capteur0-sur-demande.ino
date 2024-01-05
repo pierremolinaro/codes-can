@@ -20,22 +20,21 @@ static uint32_t gDateClignotement = 0 ;
 static bool gEmettre = false ;
 
 void loop () {
-  if ((millis () - gDateClignotement) >= 500) {
+  if (int32_t (millis () - gDateClignotement) >= int32_t (500)) {
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN));
   }
   CANMessage message ;
   if (ACAN_ESP32::can.receive (message)) {
-    if (!message.ext && !message.rtr && (message.id == 0x300) && (message.len == 0)) {
+    if (!message.ext && !message.rtr && (message.id == 0x200) && (message.len == 0)) {
       gEmettre = true ;
     }
   }
   if (gEmettre) {
-    message.id = 0x400 ; // 0x401 pour CAPTEUR1, 0x402 pour CAPTEUR2, ...
+    message.id = 0x400 ; // 0x401 pour CAPTEUR1
     message.ext = false ;
     message.rtr = false ;
-    message.len = 1 ;
-    message.data [0] = 0x01 ;
+    message.len = 0 ;
     gEmettre = !ACAN_ESP32::can.tryToSend (message) ;
   }
 }
