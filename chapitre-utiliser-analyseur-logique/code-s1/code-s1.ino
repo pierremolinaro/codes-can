@@ -26,7 +26,7 @@ void setup () {
 static uint32_t gDateClignotement = 0 ;
 
 void loop () {
-  if (gDateClignotement <= millis ()) { // Le test échoue après le débordement de millis ()
+  if (gDateClignotement <= millis ()) {// Le test échoue après le débordement de millis
     gDateClignotement += 500 ;
     digitalWrite (LED_BUILTIN, !digitalRead (LED_BUILTIN)) ;
   }

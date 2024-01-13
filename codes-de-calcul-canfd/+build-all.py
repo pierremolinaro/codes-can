@@ -15,7 +15,7 @@ os.chdir (scriptDir)
 for name in sorted (os.listdir (".")) :
   if os.path.splitext(name)[1] == ".cpp" :
     print ("Compilation de " + name)
-    returncode = subprocess.call (["g++", "-O3", "-std=c++11", name, "-o", os.path.splitext(name)[0]])
+    returncode = subprocess.call (["g++", "-O3", "-std=c++14", name, "-o", os.path.splitext(name)[0]])
     if returncode != 0 :
       sys.exit (returncode)
 
