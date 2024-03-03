@@ -1,4 +1,4 @@
-Étoile 6 branches, résistances réparties
+Étoile 6 br., résistances réparties
 
 .MODEL inter SW(RON=1m ROFF=10MEG
 * VT=1 VH=.1)
