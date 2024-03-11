@@ -6,7 +6,6 @@
   #error "La fréquence du CPU doit être 24 MHz"
 #endif
 
-
 #include <ACAN_T4.h>
 
 void setup () {
